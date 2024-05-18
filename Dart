@@ -1,0 +1,72 @@
+Understanding the Dart Language Basics
+
+Example code:
+void main() {
+  String name = "Dart";
+  print ("Hello $name!");
+}
+
+The main() function is the starting point of every Dart application. 
+
+String name = "Dart"; is a variable declaration. You are declariing a variable called name, of type String, whose value is "Dart"/ 
+
+print ("Hello $name!"); calls the print method and instead of doing a concatenation using the + sign, you use $ and insert a variable
+without closing it. It is equivalent to the code:
+print ("Hello " + name + "!");
+
+There's also a generic variable declartation, in which you don't specify any type: you write the same code like this:
+void main() {
+  var name = "Dart";
+  print ("Hello $name!");
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+The use of numbers, functions, and parameters in Dart with Area Calculator
+
+There are two types of numbers in Dart with the num type:
+int - contains interger values no larger than 64 bits
+double - contains 64 but, double percision floating point numbers
+
+Example code:
+void main() {
+  double result = calculateArea(12,5);
+  print ("The result is" + result.toString());
+}
+
+You are declaring the variable result, of type double, which takes the return value of a function called calculateArea, which needs to 
+be defined late. We are passing two numbers, 12 and 5, to the function. After the functiuon returns its value, we will display the result,
+after converting it into a string. Now let's define calculateArea:
+
+double calculateArea(double width, double height) {
+  double area = width * height;
+  return area;
+}
+
+int literals are automatically converted to doubles; for example, you can write double value = 2; This is instead of having to write 
+double value = 2.0; 
+In the calculateArea() function, the width and height are required. You can also add optional parameters to functions, by including them
+in square brackets. If you add an optional parameter, make sure it has a default value because it can't have a null value.
+
+double calculateArea(double width, double height, [bool isTriangle = false]) {
+  double area;
+  if (isTriangle) {
+    area = width * height / 2;
+  }
+  else {
+    area = width * height;
+  }
+  return area;
+}
+
+Now, from the main() method , we can call this function without or without the optional parameter.
+
+void main() {
+  double result = calculateArea(12,5,false);
+  print("The result for a rectangle is " + result.toString());
+  result = calculateArea(12,5,true);
+  print("The result for a triangle is " + result.toString());
+}
+
+This code produces the result: 
+The result of this rectangle is 60
+The result of this triangle is 30
+----------------------------------------------------------------------------------------------------------------------------------------
