@@ -70,3 +70,42 @@ This code produces the result:
 The result of this rectangle is 60
 The result of this triangle is 30
 ----------------------------------------------------------------------------------------------------------------------------------------
+For Loops and Strings 
+
+void main() {
+  String myString = "Job";
+  print(myString);
+  
+  String result = reverse(myString);   
+    print(result);
+}
+  String reverse(String old) {
+    int length = old.length; // sets value of length
+    String res = ""; // sets results to "" to get ready to print
+   
+    for (int i = length - 1; i>=0; i--) {
+      res += old.substring(i,i+1); 
+      
+    // okay let's break this for loop down. we start the for loop by defining i which will be the index. 
+       it says i = length - 1. the length of the word - 1 would mean we start with the last letter of that
+       word. for example, if the word is job. the length of this word is 3. 3 - 1 = 2. So at index 2, the 
+       letter is b which is the last letter of the word. then i will decrement. it will do this as long i is
+       greater than of equal to 0. 0 is the start of the index or the first letter. so this is the process of
+       the iteration. during this iteration, we will apply the substring method n the string. It will then return
+       a new string that is a substring of that string. Substring method takes in two values. The first value is 
+       where the string will start and will include that value and the second value is where it stops or "up to" 
+       which means it doesn't include that specific value, but everything before it. so if the string old = job the
+      operations would look like this after each iteration: 
+
+                    // res += old.substring(2, 2+ 1); which is b
+                      
+                    // res += old.substring(1, 1+1); which is o 
+                      
+                    // res += old.substring(0, 0 +1); which is J
+
+                  // the += is important because it adds/connects the result of each iteration to each other to 
+                     form the complete word. 
+  }
+    return res; // this returns the result of the for loop
+}
+----------------------------------------------------------------------------------------------------------------------------------------
