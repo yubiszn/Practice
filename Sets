@@ -1,0 +1,130 @@
+Before we get into sets. let's discuss the difference between Object and Objects
+-----------------------------------------------------------------------------------
+java.lang.Object:
+  Class Object is the root of the class hierarchy. Every class has Object as a superclass. 
+  All objects, including arrays, implement the methods of this class.
+
+Important Methods: 
+
+toString() :
+returns a string representation of the object
+-----------------------------------------------------------------------------------
+java.util.Objects:
+  This class consists of static utility methods for operating on objects. These utilities include
+  null-safe or null-tolerant methods for computing the hash code of an object, returning a string for
+  an object, and comparing two objects.
+
+Important Methods:
+
+equals(Object a, Object b) - returns true if they are equal to each other and if not, 
+it is false.
+                                              example: 
+                          Student student3 = new Student("Ayub", "Ali");
+                          Student student4 = new Student("Jamal", "Ali");
+                          System.out.println(Objects.equals(student3, student4));
+
+                                    
+hash(Object a ... ) - the ... means it can be one value or multiple separeted by a comma.
+it will generate the hashcode for the objects
+                                        example: 
+                          Student student3 = new Student("Ayub", "Ali");
+                          System.out.println(student3.hashCode());
+
+
+
+                              overriding hashcode() and equals(): 
+                              @Override
+                              public boolean equals(Object obj) {
+                              if (this == obj)
+                                {
+                                   return true; // if two instances are the same, they must be equal
+                                }
+                              if (obj == null) 
+                                {
+                                   return false; // if the obj is null, the equality fails
+                                }
+                              if (!( obj instanceof Student)) 
+                                {
+                                   return false; // if the obj is not an instance of Student, the equality fails
+                                }
+                             Student other = (Student) obj;
+                             if (Objects.equals(this.firstName, other.firstName) && Objects.equals(this.lastName, other.lastName))
+                               {
+                                  return true; // if the attributes are equal, they must both be equal then.
+                               }
+                                return false;
+                          }
+
+                          @Override
+                          public int hashCode() 
+                          {
+                              return Objects.hash(firstName, lastName);
+                          }
+
+-----------------------------------------------------------------------------------
+Set Interface
+
+HashSet - is a set that is implemented using a hastable
+TreeSet - is implemented using a special kind of binary search tree called a Red-Black Tree.
+
+A set can be thought of as a collection of objects. There is no duplicates in a set. 
+
+Operations performed on a mathematical set testing for membership (method contains), adding elements, and removing elements.
+Other operations include set union (A ∪ B), set intersection (A ∩ B), and set difference (A – B). 
+ 
+
+This is the full set of methods
+- boolean add(E obj) - adds item obj to set if it is not present.
+- boolean remove(Object obj) - removes the set element equal to obj if it is present
+- boolean isEmpty() - reutrns true if set contains no elements 
+- int size - returns number of elements of the set 
+- Iterator<E> iterator() - returns an iterator over the elements in this set. 
+* boolean addAll(Collection<E> coll) - set union: elements belong to either A or B or both A and B
+* boolean retainAll(Collection<E> coll) - set intersection: elements belong to both A and B
+* boolean removeAll(Collection<E> coll): set difference: elements belong to one but not the other. 
+* boolean contains(Object obj): returns true if set contains an element that is equal to obj
+* boolean containsAll(Collection<E> coll): returns true if set contains all elements in collection
+
+
+-----------------------------------------------------------------------------------
+
+import java.util.HashSet;
+import java.util.Set;
+
+
+public class Main {
+public static void main(String[] args) { 
+
+    // Create the sets. 
+    String[] listA = {"Ann", "Sally", "Jill", "Sally"}; 
+    String[] listB = {"Bob", "Bill", "Ann", "Jill"}; 
+    Set<String> setA = new HashSet<>(); 
+    Set<String> setAcopy = new HashSet<>();  // Copy of setA 
+    Set<String> setB = new HashSet<>(); 
+
+    // Load sets from arrays. 
+    for (String s : listA) { 
+        setA.add(s); 
+        setAcopy.add(s); 
+    } 
+    for (String s : listB) { 
+        setB.add(s); 
+    } 
+    System.out.println("The 2 sets are: " + "\n" + setA  
+                       + "\n" + setB); 
+    // Display the union and intersection. 
+    setA.addAll(setB);         // Set union 
+    setAcopy.retainAll(setB);  // Set intersection 
+    System.out.println("Items in set union are: " + setA); 
+    System.out.println("Items in set intersection are: " 
+                       + setAcopy); 
+  }
+}
+
+
+Output: 
+The 2 sets are: 
+[Ann, Sally, Jill]
+[Ann, Bob, Bill, Jill]
+Items in set union are: [Ann, Sally, Bob, Bill, Jill]
+Items in set intersection are: [Ann, Jill]
