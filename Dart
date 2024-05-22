@@ -109,3 +109,140 @@ void main() {
     return res; // this returns the result of the for loop
 }
 ----------------------------------------------------------------------------------------------------------------------------------------
+Arrow operator
+The => arrow operator is a shortcut that allows you to simplify writing a method particulary when it has a single return statement.
+example 1: 
+bool converttoBoolLong(int value) {
+  if (value == 1) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+
+this method converToBoolLong() can be rewritten using an arrow operator:
+
+bool convertToBoolLong(int value) => (value == 0) ? false : true;
+
+another example:
+String sayHello(String name) {
+  return "Hello " + name;
+}
+can be rewritten as
+String sayHello(String name) => "Hello " + name;
+
+
+the ternary operator is a concise way to write an if statement. Consider the following statement:
+if (value == 0) {
+  i == false;
+}
+else {
+  i == true;
+}
+can be rewritten as
+i = (value == 0) ? false : true;
+the ternary operator can omit the if statement, the curly braces, and the else statement. 
+----------------------------------------------------------------------------------------------------------------------------------------
+While loops, lists, and generics
+
+One of the the first features that you generally meet when you learn a new language are arrays. In Dart, you use List objects when you want
+to define a collection. Consider the following code: 
+
+void main () {
+  String sing() {
+  List<String> songs = [];
+  var songString = "";
+  songs.add("We will Rock You");
+  songs.add("One");
+  songs.add("Sultan of Swing");
+  int i = 0;
+  while( i < songs.length) {
+    songString += "${songs[i]} - ";
+    i++
+  }  
+  return songString;
+}
+
+String mySongs = sing();
+  print (mySongs);
+}
+
+
+Code Breakdown: 
+The sing() method defines an empty list of strings.
+List<String> songs = [];;
+
+In Dart, the List class doesn't have a named constructor. Instead, you would typically use one of the following:
+List<String> songs = [];: This initializes an empty list of strings using a list literal.
+
+A list can contain several types of objects. You could have a list of integers, Booleans, or even user-defined objects. You can
+also avoid specifying the kind of object that is contain in a list by just writing the following:
+var songs = List(); // but we don't in this particular example code. 
+The <String> after List is the generic syntax. The use of generics enforces a restriction on the type of values that can be contained in the
+collection, creating a type-safe collection. 
+
+List implement several methods. You use the add() method to insert a new object into the collection:
+songs.add("We will Rock You");
+The new object is added to the end of the list. You could reach exactly the same result by writing the following code:
+var songs = ["We will Rock You", "One", "Sultans of Swing"];
+
+The songs variable would still be a list of strings. If you tried to add a different data type such as songs.add(24), you would get an error. 
+This is because an integer cannot be inserted into a list of strings, and type safety is enforced by default.
+
+The while statement contains the condition that needs to be true for the loop to continue:
+while (i < songs.length) {
+when the condition (i < songs.length) becomes false, the code in the loop won't execute anymore. 
+
+As you've already seen before, the += operator is a concatenation of strings. The $ character allows you to insert expressions into quotes:
+songString += "$(songs[i]) - "
+
+We them create a String variable called mySongs and call the sing() method on it and print the result.
+----------------------------------------------------------------------------------------------------------------------------------------
+foreach()
+
+The for and while loops can be generally used for any type of loop, but lists also have some specific methods that help you write elegant and
+readable code.
+The foreach method of a list lets you run a function on each element in the array. So you could delete the while loop and use the following code 
+instead to achieve the same results:
+
+songs.forEach((song) => songString. += song + " - ");
+----------------------------------------------------------------------------------------------------------------------------------------
+map()
+The map() method transforms each element in a list and returns the result of the transformation in a new list. 
+
+void main() {
+  String sing() {
+  List<String> songs = [];
+  songs.add("We will Rock You");
+  songs.add("One");
+  songs.add("Sultan of Swing");
+  var capitalSongs = songs.map((song) => song.toUpperCase());
+  return capitalSongs.toString();
+}
+
+  String mySongs = sing();
+  print(mySongs);
+}
+
+The result of this code is that the songs are now printed in uppercase, but the interesting part of the code is the following line:
+var capitalSongs = songs.map((song) => song.toUpperCase());
+You can see the map() method of a list in action. For each element of the list, in this case a song, the element is transformed into 
+song.toUpperCase(), and the end result is passed to a new variable, called capitalSongs. The toString() method transforms a list into a string.
+The result that prints on the screen is:
+(WE WILL ROCK YOU, ONE, SULTAN OF SWING)
+----------------------------------------------------------------------------------------------------------------------------------------
+where()
+
+String sing() {
+  List<String> songs = [];
+  songs.add("We will Rock You");
+  songs.add("One");
+  songs.add("Sultan of Swing");
+  var wSongs = songs.where((song) => song.contains('w'));
+  return wSongs.toString();
+}
+
+The where() method only returns the elements that satisfy the song.contains('w') test expression. This only returns the songs that contain the 'w'
+so the end result tha you see printed is: 
+(We will Rock You, Sultan of Swing)
