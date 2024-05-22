@@ -246,3 +246,93 @@ String sing() {
 The where() method only returns the elements that satisfy the song.contains('w') test expression. This only returns the songs that contain the 'w'
 so the end result tha you see printed is: 
 (We will Rock You, Sultan of Swing)
+----------------------------------------------------------------------------------------------------------------------------------------
+Classes and Objects
+
+class Perseon {
+  String name;
+  String surname;
+}
+You can create instances of the Person class from the main method, and set the name and surname:
+main() {
+  Person clark = Person();
+  clark.name = "Clark";
+  clark.surname = "Kent";
+  print ('$(clark.name) $(clark.surname)');
+}
+
+There are no identifiers suchas private and public in Dart. you also don't need to use the new keyword.
+----------------------------------------------------------------------------------------------------------------------------------------
+Using Getters and Setters
+
+main() {
+  class Person {
+    String name, surname;
+    int _age;
+
+  void set age(int years) {
+    if (years > 0 && years < 120) {
+      _age = years;
+    }
+    else {
+      _age = 0;
+    }
+  }
+
+  int get age {
+    return _age;
+    }
+  }
+
+
+  Person clark = Person();
+  clark.name = "Clark";
+  clark.surname = "Kent";
+  clark.age = 30;
+  print ('$(clark.name) $(clark.surname) $(clark.age)');
+}
+
+In this example, we protect our data in the setter by making sure that the years are a number between 0 and 120. 
+The getter just returns _age without any update
+----------------------------------------------------------------------------------------------------------------------------------------
+Constructors
+
+main() {
+  Person clark = Person('Clark', 'Kent');
+  print('$(clark.name) $(clark.surname)');
+
+  class Person {
+    String name, surname;
+    
+      Person(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+      }
+}
+
+If you wanted to add a second contructor that takes no parameters, you can try to add the second constructor as follows:
+Person(); // However this would create an error because there default constructor is already defined.
+This is because in Dart, you can only have one unnamed constructor but you can have any number of named constructors. We should
+instead add the following code:
+Person.empty() // This would successfully create a second named constructor.
+
+
+ main() {
+  Person clark = Person('Clark', 'Kent');
+  Person luke = Person.empty();
+  luke.name = "Luke";
+  luke.surname = "Skywalker";
+  print('${(clark.name)} ${clark.surname}');
+  print('${(luke.name)} ${luke.surname}');
+ }
+
+class Person {
+    String name, surname;
+    
+      Person(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+      }
+
+      Person.empty();
+}
