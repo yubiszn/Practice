@@ -139,8 +139,68 @@ return n * factorial(n-1);
 This statement implements the recursive case, invokes factorial method on itself. Each time factorial calls
 itself, the method body executes again with a different argument value. so if the innitial method call was
 factorial(4), this will generate 4 recursive calls. factorial(3), factorial(2), factorial(1), factorial(0).
+
+
 Recursive Algorithm for Computing x^2(n ≥ 0)
+Let's develop a recursive method that raises a number x to a power n, where n is a positive or zero.
+You can raise a number to a power by repeatedly multiplying the number by itself. The recursive definition is:
+x^n = x * x^n-1
+if x = 2 
+if n = 3
+2^3 = 2 * 2^3-1 
+is simplified to 
+8 = 8 which is true. 
+
+The recursive algorithm is thus:
+1. if n is 0
+2. the result is 1.
+    else
+3. the result is x^n = x * x^n-1
+
+The recursive method written in code is:
+public static double power(double x, int n) {
+if (n == 0) {
+  return 1;
+}
+else {
+  return x * power(x, n-1)
+}
+
+
 
 Definition of gcd(m,n) for m > n
 
 Recursive Algorithm for gcd(m,n) for m > n
+
+================================================== ================================================== 5.3 Recursive Array Search =================================================================================================================
+Design of a Recursive Linear Search Algorithm
+
+The base case would be an empty array. If the array is empty, the target cannot be there, so the result is -1. If the array is not empty,
+we assume that we can examine just the first element of the array, so another base case would be when the first array element matches the 
+target. If so the result should be the subscript of the first array element.
+
+The recursive step would be to search the rest of the array, excluding the first element. So our recursive step should search for the target
+starting with the current second array element, which will become the first element in the next execution of the recursive step. The algorithm is:
+
+1. if the array is empty
+2. The result is -1;
+    else if The first element matches the target
+3. the result is the subscript of the first element.
+    else
+4. search the array excluding the first element and return the result
+
+The recursive method written in code is: 
+
+private static int linearSearch(Object[] items, Object[] target, int posFirst) {
+  if (posFirst == items.length() {
+    return -1;
+  }
+  else if (target.equals(items[posFirst])) {
+    return posFirst;
+  }
+  else {
+    return linearSearch(items, target, posFirst + 1);
+  }
+
+Design of a Binary Search Algorithm
+}
