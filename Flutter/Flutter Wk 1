@@ -1,4 +1,4 @@
-Understanding the Dart Language Basics
+Dart Language Basics
 
 Example code:
 void main() {
@@ -335,4 +335,256 @@ class Person {
       }
 
       Person.empty();
+}
+
+
+====================================================================================================================================
+FLUTTER NOTES 
+
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Text('Hello World Travel',
+        textDirection: TextDirection.ltr,),
+    );
+  }
+}
+
+
+For the main() method, we use the arrow syntax to call runApp(). The runApp() method shows the widgets
+that you placed inside the app on the screen. Widgets are simply descriptions of the user interface.
+
+The following line states that MyApp is a class that extends StatelessWidget:
+class MyApp extends StatelessWidget
+
+There are two types of widgets in flutter
+1. Stateless - when you do not need to change the widget after its creation
+2. Stateful - the content (state) needs to change
+
+build() method is automatically called by the flutter framework when a widget is inserted into the
+widget tree ( which is the hierarchical list of widgets that makes the UI):
+Widget build(BuildContext context) 
+
+The widget tree is made up of two widgets in the example: Center and Text
+
+Center is a positional widget that centers the content on the screen.
+
+child is the property that allows you to nest widgets inside other widgets. Text is a widget to show
+text and textDirection.ltr specifies left to right direction. 
+
+------------------------------------------------------------------------------------------------------------------------------
+MATERIAL APP
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'Hello World Travel Title',
+        home: Center(
+        child: Text('Hello World Travel')
+    ));
+  }
+}
+
+For most apps, you'll probably wrap your content in a MaterialApp widget that allows you to give a title to 
+your app. Instead of Center widget, we return MaterialApp which has two properties, title and home. In 
+MaterialApp, you don't need to specify the text direction. 
+
+---------------------------------------------------------------------------------------------------------------
+SCAFFOLD
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'Hello World Travel Title',
+        home: Scaffold(
+          appBar: AppBar(title: Text('Hello World Travel App')),
+          body: Center(
+            child: Text('Hello World Travel')
+          )));
+    }
+}
+
+We can add a Scaffold widget that represents a screen in
+MaterialApp widget, as it may contain several Material Design layout widgets, including AppBar, a bottom 
+navigation bar, floating action buttons, and the body screen. Scaffold widget has two properties :
+1. appBar - has an applciation bar
+2. body - contains the main content of the screen 
+which contains an application bar, 
+---------------------------------------------------------------------------------------------------------------
+FORMATTING TEXT AND USING COLUMNS
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'Hello World Travel Title',
+        home: Scaffold(
+          appBar: AppBar(
+              title: Text('Hello World Travel App'),
+              backgroundColor: Colors.deepPurple,),
+          body: Center(
+            child: Text(
+                'Hello World Travel',
+                style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue[800]),)
+       )));
+    }
+}
+=============================================================================================================
+Following the textbook, this produces a hello world app however nothing happened after presssing the contact
+us button: 
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'Hello World Travel Title',
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text('Hello World Travel App'),
+              backgroundColor: Colors.deepPurple,
+            ),
+            body: Center(
+                child: Column(children: [
+                  Text(
+                    'Hello World Travel',
+                    style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue[800]),
+                  ),
+                  Text(
+                    'Discover the World',
+                    style: TextStyle(
+                        fontSize: 20, color: Colors.deepPurpleAccent),
+                  ),
+                  Image.network(
+                    'https://images.freeimages.com/images/large-previews/eaa/the-beach-1464354.jpg',
+                    height: 350,
+                  ),
+                    ElevatedButton(
+                      child: Text('Contact Us'),
+                      onPressed: () => contactUs(context), // Call contactUs function here
+                ]))));
+      }
+
+
+      void contactUs(BuildContext context) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context)
+      {
+        return AlertDialog(
+          title: Text('Contact Us'),
+          content: Text('Mail us at hello@world.com'),
+          actions: <Widget>[
+          TextButton(
+              child: Text('Close'),
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
+        );
+
+      },
+    );
+  }
+}
+
+
+=============================================================================================================
+
+I fixed it by adding the MaterialApp widget around the existing MyApp widget: 
+void main() => runApp(MaterialApp(home:  MyApp(),));
+
+
+
+THE FINAL CODE: 
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp(home:  MyApp(),));
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'Hello World Travel Title',
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text('Hello World Travel App'),
+              backgroundColor: Colors.deepPurple,
+            ),
+            body: Center(
+                child: Column(children: [
+                  Text(
+                    'Hello World Travel',
+                    style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue[800]),
+                  ),
+                  Text(
+                    'Discover the World',
+                    style: TextStyle(
+                        fontSize: 20, color: Colors.deepPurpleAccent),
+                  ),
+                  Image.network(
+                    'https://images.freeimages.com/images/large-previews/eaa/the-beach-1464354.jpg',
+                    height: 350,
+                  ),
+                    ElevatedButton(
+                      child: Text('Contact Us'),
+                      onPressed: () => contactUs(context), // Call contactUs function here
+                    ),
+                ],
+                ),
+            ),
+        ),
+    );
+  }
+
+      void contactUs(BuildContext context) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+             return AlertDialog(
+              title: Text('Contact Us'),
+              content: Text('Mail us at hello@world.com'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Close'),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+              ],
+            );
+
+      },
+    );
+  }
 }
