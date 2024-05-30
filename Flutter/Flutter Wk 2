@@ -120,4 +120,99 @@ In summary, the only difference between Stateless and Stateful is from a syntax 
 - Stateful override a createState() method, which returns a State. The State class overridges a build method 
   and returns a widget
 
+----------------------------------------------------------------------------------------------------------------------------
+Reading User input from Textfield
 
+Right under the State class, let's add a member called _numberFrom. This is a value that will change based on user input.
+You will need to initialize it so write 0.0 as a starting point:
+- double _numberFrom = 0.0;
+
+Then in the body of the build() method, delete the text widget and add TextField instead:
+- body: Center(
+      child: TextField();
+  ),
+
+You use TextField when you want to take some input from your users. You can write into it by clicking over the line and
+typing something. Right now it does nothing, so the first thign we need to do is read the value that the user inputs into it.
+
+We will respond to each change in the content of the TextField through the onChanged method, then update the State. 
+
+In order to update the State, you need to call the setState() method. 
+The setState() method tells the framework that the state of an object has changed and that the UI needs to be updated.
+Inside the setState(0 method, you change the class members that you need to update:
+- child: Textfield(
+     onChanged: (text) {
+      var rv = double.tryParse(text);
+      if (rv != null) {
+       setState()) {
+          _ numberFrom = rv;
+          });
+         }
+       },
+    ),
+
+Each time the value of TextField changes(onChanged), we check whether the value that was typed is a number(tryParse).
+If it is a number, we change the value of the _numberFrom member. You have updated the State. 
+In other words, when you call the setState() method to update the class member, you are updating the State of the class.
+
+We are not giving any feedback to the user though, so unless we use debugging tools of our editor, we cannot actually check
+whether the update actually happeneed. In order to fix this, let's add a Text widget that will show the content of the TextEdit widget,
+and then wrap the two widgets into a Column widget and add void initState() method to the MyAppState class:
+
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  MyAppState createState() => MyAppState();
+}
+class MyAppState extends State<MyApp> {
+  double _numberFrom = 0.0;
+
+  void initState() {
+    _numberFrom = 0.0;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Measures Converter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Measure Converter')
+        ),
+        body: Center(
+          child: Column(
+          children:  [
+          TextField(
+            onChanged: (text) {
+            var rv = double.tryParse(text);
+             if (rv != null) {
+                setState(() {
+                     _numberFrom = rv;
+                    });
+                   }
+                 } // onChanged
+               ),
+            Text((_numberFrom == null) ? '' : _numberFrom.toString())
+            ], // Children
+          ),
+        ),
+      )
+    );
+  } // Widget
+} // MyAppState
+
+
+Now if you write a number in the TextField, the same number will appear in the Text widget.
+What is happening:
+1. You are setting an initial State of the app through _numberFrom member in the initState() method.
+2. The widget is drawn on the screen.
+3. You are responding to a TextField event: the onChanged method, which is called every time the content
+   of the TextField changes
+4. You are changing the State by calling setState() method and there you change the value of _numberFrom.
+5. The widget is redrawn with the new State, which contains the number you write in TextField, so the Text widget,
+   which reads _numberFrom, contains the modified value of the State.
