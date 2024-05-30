@@ -1,1 +1,123 @@
 Miles or Kilometers? Using Stateful Widgets
+
+State:  a way to deal with changes in Flutter. State is information that can be used when a widget is built and
+can change during the lifetime of a widget. An important part of the definition is that state is information that
+can change. 
+
+
+
+1. Stateless Widggets:, they are immutable once they are created meaning does not change
+
+2. Stateful Widget: When a widget has a State, it’s called a stateful widget. It is not the widget itself that will change 
+but that it is the state of the widget that will change. You use stateful widgets when you want to change the state of the widget 
+and change values
+
+ 
+
+You deal with changes in Flutter by using State. 
+Each time the State changes, the widget gets rebuilt. The State class overrides a build() method, returning a widget.
+
+In order to update the State, you need to call the setState() method. The setState() method tells the framework that the
+state of an object has changed and that the UI needs to be updated. 
+----------------------------------------------------------------------------------------------------------------------------
+STATELESS WIDGET: Let's examine this code below
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Measures Converter',
+      home: Scaffold(
+      appBar: AppBar(
+          title: Text('Measure Converter'),
+    ),
+    body: Center(
+        child: Text('Measures Converter'),
+        ),
+      ),
+    );
+  }
+}
+
+
+The code makes use of a stateless widget: 
+- class MyApp extends StatelessWidget {
+
+A stateless widget is a class that extends a StatelessWidget. Extending a StatelessWidget class requires overriding a build() 
+method/ In this build() method, you describe the widget returned by the method: 
+-   @override
+    Widget build(BuildContext context) {
+
+The build() method that takes a context and returns a widget:
+- return MaterialApp( ...) 
+
+So to summarize, in order to have a stateless widget you need to do the following:
+1. Create a class that extends StatelessWidget
+2. Override the build() method
+3. Return a widget
+----------------------------------------------------------------------------------------------------------------------------
+STATEFUL WIDGET: Let's examine this code below 
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  MyAppState createState() => MyAppState();
+}
+class MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Measures Converter',
+      home: Scaffold(
+      appBar: AppBar(
+          title: Text('Measure Converter'),
+    ),
+    body: Center(
+        child: Text('Measures Converter'),
+        ),
+      ),
+    );
+  }
+}
+
+1. A stateful widget requires a createState() method
+- class MyApp extends StatefulWidget {
+
+2. In a stateful widget, there is no build() method to override. We will add createState() method which will return
+MyAppState which we will create shortly after. In MyApp class, just under its definiton, write the following code:
+- @override
+  MyAppState createState() => MyAppState();
+
+3. Create a new class called MyAppState, that extends the State, and in particular the State of MyApp
+- class MyAppState extends State<MyApp> { ... }
+
+4. copy the code from the build() method we used in MyApp class for stateless widget, and paste it into the MyAppState class
+- @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Measures Converter',
+      home: Scaffold(
+      appBar: AppBar(
+          title: Text('Measure Converter'),
+    ),
+    body: Center(
+        child: Text('Measures Converter'),
+        ),
+      ),
+    );
+  }
+}
+
+In summary, the only difference between Stateless and Stateful is from a syntax perspective:
+- Stateless overrides the build() method and returns a widget
+- Stateful override a createState() method, which returns a State. The State class overridges a build method 
+  and returns a widget
+
+
