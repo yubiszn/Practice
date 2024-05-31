@@ -457,6 +457,95 @@ class MyAppState extends State<MyApp> {
     );
   } // Widget
 } // MyAppState
+----------------------------------------------------------------------------------------------------------------------------
+COMPLETE THE UI OF THE APP
 
+We will need to show eight widgets on screen
+1. Text containing "Value"
+2. TextField for the start value
+3. Text containing "From"
+4. A DropdownButton widget for the start measure
+5. Text containing "To"
+6. A DropdownButton widget for the measure of the conversion
+7. ElevatedButton to call the method that will convert the value
+8. Text for the result of the conversion
+
+Each element of the Column should be spaced and styled. 
+
+
+
+1.  At the top of build() method, create a TextStyle widget, which we will use for TextFields, DropDownButtons, and Button. Call this inputStyle:
+
+    final TextStyle inputStyle = TextStyle (
+      fontSize: 20;
+      color: Colors.blue[900],
+    );
+
+
+2. Create a second TextStyle widget, which we will use for the Text widgets in the column, call it labelStyle:
+
+   final TextStyle labelStyle = TextStyle (
+      fontSize: 24;
+      color: Colors.grey[700],
+    );
+
+
+3. We want Column to take some distance from the horizontal device borders. So instead of returning Center widget, return Container, which 
+   takes a padding of 20 logical pixels. Edge.Insets.symmetric allows you to specify a value for the horizontal or vertical paddings. Code is:
+
+   body: Container(
+      padding: dge.Insets.symmetric(horizontal: 20),
+      child: Column(
+
+
+4. We want to create space between the widgets in the column. User Spacer widget, this creates an empty space that can be used to set spacing between
+   widgets. Spacer widget has a flex property whose default value is 1, and determines how much space we want to use. For instance, you have have two
+   Spacer widgets, one with a flex property of 1, and another flex property of 2, the second will take double the space of the first. At the top
+   of the Column, add the initial Spacer widget
+
+
+    child: Column(
+      children: [
+        Spacer(),
+
+
+5. Under the Spacer widget, add the first text in the column, containing 'Value' string. Also aplly labelStyle to this widget
+   and under Text, we will place another Spacer:
+
+
+    Text(
+       'Value',
+        style: labelStyle,
+     ), 
+     Spacer(),
+
+6.
+
+
+7.
+
+
+8.
+
+
+9.
+
+
+10.
+
+
+11.
+
+
+12.
+
+
+13.
+
+
+14.
+
+
+15.
 
 
