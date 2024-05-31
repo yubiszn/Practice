@@ -216,3 +216,247 @@ What is happening:
 4. You are changing the State by calling setState() method and there you change the value of _numberFrom.
 5. The widget is redrawn with the new State, which contains the number you write in TextField, so the Text widget,
    which reads _numberFrom, contains the modified value of the State.
+----------------------------------------------------------------------------------------------------------------------------
+
+CREATING A DROPDOWN BUTTON WIDGET
+
+1. Create an instance of DropdownButton, specifying the type of data that will be included in the list
+2. Add an iterms property that will contain the list of items that will be show to the user
+3. The items property requires a list of DropdownMenuItem widgets. There you need to map each value that you 
+   want to show into DropdownMenuItem
+4. Respond to the user actions by specifying an event; typically, for DropdownButton, you will call a function in the 
+   OnChanged property.
+
+DropDownButton Example that shows a list of fruits:
+
+var fruits = ['Orange', 'Apple', 'Strawberry', 'Banana']
+
+DropdownButton<String>(
+  items: fruits.map((String value) {
+    return DropdownMenuItem<String>(
+      value: value,
+      child: Text(value),
+    );
+  }
+).toList(),
+onChanged: (String newValue) {}
+),
+
+DropdownButton is a generic, as it's built as DropDownButton<T>, where generic type T, is the type of item in your DropDownButton
+widget (in the above example, the type is String)
+  - Dart support generics or generic types. for example, a list can contain several types: List<int> is a list of integers, 
+    List<String> is a list of strings, and List<dynamic> is a list of objects of any type. Using generics helps to ensure type
+    safety: for example, you cannot add a number to List<String>
+
+map() method iterates through all the values of the array, and performs a function on each value of the list. 
+The function inside map() method returns a DropDownMenuItem widget, which has a value and child property. 
+child is what the user will see which is a Text widget. The value is what you'll use to retrieve the selected item on the list.
+The map() method returns a iterable, which is a collection of values that can be accessed sequentially.
+
+Over that, you call toList() method, which creates a list that contains the elements that should be returned. This is required by the items property.
+
+In our app, we will need two DropdownButton widgets, one for the starting unit and one for the converted unit.
+1. Create a list of strings that will contain all the measures that we want to deal with. At the beginning of the State class, add:
+
+    final List<String> _measures = [
+      'meters',
+      'kilometers',
+      'grams',
+      'kilograms',
+      'feet',
+      'miles',
+      'pounds (lbs)',
+      'ounces',
+   ];
+
+
+2. Next, create a DropDownButton widget, that will read the values of the list and place it at the top of the column, above TextField:
+
+   DropdownButton (
+      items: _measures.map((String value) {
+         return DropdownMenuItem<String>(
+           value: value,
+           child: Text(value),
+          );
+        }
+      ).toList(),
+      onChanged: (_) {},
+   ), 
+
+
+
+Updated Code on The App
+------------------------
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  MyAppState createState() => MyAppState();
+}
+class MyAppState extends State<MyApp> {
+  double _numberFrom = 0.0;
+
+  void initState() {
+    _numberFrom = 0.0;
+    super.initState();
+  }
+
+  final List<String> _measures = [
+    'meters',
+    'kilometers',
+    'grams',
+    'kilograms',
+    'feet',
+    'miles',
+    'pounds (lbs)',
+    'ounces',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Measures Converter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Measure Converter')
+        ),
+        body: Center(
+          child: Column(
+            children:  [
+              DropdownButton (
+                items: _measures.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }
+                ).toList(),
+                onChanged: (_) {},
+              ),
+          TextField(
+            onChanged: (text) {
+            var rv = double.tryParse(text);
+             if (rv != null) {
+                setState(() {
+                     _numberFrom = rv;
+                    });
+                   }
+                 } // onChanged
+               ),
+            Text((_numberFrom == null) ? '' : _numberFrom.toString())
+            ], // Children
+          ),
+        ),
+      )
+    );
+  } // Widget
+} // MyAppState
+----------------------------------------------------------------------------------------------------------------------------
+
+UPDATING A DROPDOWNBUTTON WIDGET
+
+1. Create a new string called _startMeasure at the top of the MyAppState class. It will contain the selected value from
+   DropdownButton:
+
+    String _startMeasure = 'meters'; // meters is set to the default
+
+2. Instead of the underscore, call the parameter that is passed to the function, value.
+3. Inside the function, call the setState() method to update _startMeasure with the new value that's passed. Here is the code:
+
+   onChanged: (value) {
+     setState(() {
+       _startMeasure = value ?? ''; // ?? '' means if it is not null
+     });
+   }
+
+
+4. Then include Text(_startMeasure ?? '') to display the value of _startMeasure if it is not null
+
+5. Read the selected value so the DropdwonButton reads it when the app starts and every time it changes. Add the line to DropDownButton:
+
+   value = _startMeasure,
+
+
+UPDATED CODE: 
+
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  MyAppState createState() => MyAppState();
+}
+class MyAppState extends State<MyApp> {
+  String _startMeasure = 'meters';
+  double _numberFrom = 0.0;
+
+
+  void initState() {
+    _numberFrom = 0.0;
+    super.initState();
+  }
+
+  final List<String> _measures = [
+    'meters',
+    'kilometers',
+    'grams',
+    'kilograms',
+    'feet',
+    'miles',
+    'pounds (lbs)',
+    'ounces',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Measures Converter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Measure Converter')
+        ),
+        body: Center(
+          child: Column(
+            children:  [
+              DropdownButton (
+                value: _startMeasure,
+                items: _measures.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }
+                ).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _startMeasure = value ?? '';
+                  });
+                },
+              ),
+          TextField(
+            onChanged: (text) {
+            var rv = double.tryParse(text);
+             if (rv != null) {
+                setState(() {
+                     _numberFrom = rv;
+                    });
+                   }
+                 } // onChanged
+               ),
+            Text((_numberFrom == null) ? '' : _numberFrom.toString()),
+              Text(_startMeasure ?? '')
+            ], // Children
+          ),
+        ),
+      )
+    );
+  } // Widget
+} // MyAppState
+
+
+
