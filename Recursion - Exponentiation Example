@@ -1,0 +1,52 @@
+Exponentiation
+
+Inductive: 
+xⁿ 
+if n = 0, x = 1
+otherwise, x * n - 1
+
+In Code:
+
+
+public int pow(int base, int exp) {
+	if (exp == 0) {
+	   return 1
+            }
+	Return base * pow(base, exp – 1)
+} 
+
+
+To improve the efficiency faster: 
+xⁿ 
+if n = 0, x = 1
+if it is odd, x ⁿ⁻¹
+if it is even, (x ⁿ/²) ² 
+
+
+Improved Code: 
+
+In Code:
+
+
+public int pow(int base, int exp) {
+	
+int result = 1
+if (exp == 0) 
+{
+	    return 1;
+            }
+	if (exp != 0 {
+	if (exp % 2 = = 1) // if exponent is an odd number, x * x ⁿ⁻¹
+{
+	     return base * pow(base, exp -1);
+}
+else (exp %2 == 0) // if exponent is even number, (x ⁿ/²) ²
+ {
+      result = pow(base, exp / 2)
+      result *= result;
+ } 
+          }
+return result;
+}
+
+This is a O(log N) approach because it divides the problem size by 2 in each recursive call.. This will be a faster performance, and much improved efficiency. The code cuts down the amount of multiplications that it would do in the initial code. 
