@@ -650,4 +650,85 @@ Each element of the Column should be spaced and styled.
                ....
       },
    ),
+----------------------------------------------------------------------------------------------------------------------------
+ADDING THE BUSINESS LOGIC
 
+1. We'll need to convert the Strings of the measure units into numbers. At the top of the MyAppState class, add the following code, using Map:
+
+   final Map<String, int> _measuresMap = {
+    'meters' : 0,
+    'kilometers' : 1,
+    'grams' : 2,
+    'kilograms' : 3,
+    'feet' : 4,
+    'miles' : 5, 
+    'pounds (lbs)' : 6,
+    'ounces' : 7,
+   };
+
+2. Maps allow you to insert key-value pairs, where the first element is the key, and the second is the value. When you need to retrieve a value from Map,
+   you can use the follow syntax:
+
+   myValue = measures('miles');
+
+3. Next we'll create a list that contains all the multipliers that were shown in the previous diagram: 
+
+   final dynamic _formulas = {
+     '0':[1,0.001,0,0,3.28084,0.000621371,0,0],
+     '1':[1000,1,0,0,3280.84,0.621371,0,0],
+     '2':[0,0,1,0.0001,0,0,0.00220462,0.035274],
+     '3':[0,0,1000,1,0,0,2.20462,35.274],
+     '4':[0.3048,0.0003048,0,0,1,0.000189394,0,0],
+     '5':[1609.34, 1.60934,0,0,5280,1,0,0],
+     '6':[0,0,453.592,0.453592,0,0,1,16],
+     '7':[0,0,28.3495,0.0283495,3.28084,0,0.0625, 1],
+     };
+
+4. Create a matrix that contains all the possible combinations of conversion formulas, we need to write the method that will convert the values using the formulas and the
+   measures Map. 
+
+   void convert(double value, String from, String to) {
+      int nFrom = _measuresMap[from];
+      int nTo = _measuresMap[to];
+      var multiplier = _formulas[nFrom.toString()] [nTo];
+      var result = valie * multiplier;
+   }
+
+
+Now show the result of the conversion to the user
+
+1. Declare a String variable at the top of the MyAppState class:
+
+   String _resultMessage;
+
+2. In the convert() method, after calculating the result, populate the _resultMessage String, and call the setState() method to notify the framework
+   that an update to the UI is needed:
+
+   if (result == 0) {
+     _resultMessage = 'This conversion cannot be performed';
+   }
+   else {
+     _resultMessage = '${_numberFrom.toString()} $_startMessage are ${result.toString()} $_convertedMeasure';
+   }
+   setState(() {
+     _resultMessage = _resultMessage;
+   });
+
+3. Call the convert() method when the user taps on the Convert button. Before calling the method, we'll check that every value has been set to prevent potential errors. Edit RaisedButton:
+
+   RaisedButton(
+     child: Text('Convert', style: inputStyle),
+     onPressed: () {
+       if (_startMeasure.isEmpty || _convertedMeasure.isEmpty || _numberFrom==0) {
+         return;
+       }
+       else {
+         convert(_numberFrom, _startMeasure, _convertedMeasure);
+       }
+     },
+   ),
+
+4. In order to show the result, update the Text widget, so that it shows the string that contains the message to the user:
+
+   Text((_resultMessage == null) ? '' : _resultMessage,
+      style: labelStyle),
