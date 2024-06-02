@@ -494,7 +494,7 @@ Each element of the Column should be spaced and styled.
    takes a padding of 20 logical pixels. Edge.Insets.symmetric allows you to specify a value for the horizontal or vertical paddings. Code is:
 
    body: Container(
-      padding: dge.Insets.symmetric(horizontal: 20),
+      padding: Edge.Insets.symmetric(horizontal: 20),
       child: Column(
 
 
@@ -555,7 +555,7 @@ Each element of the Column should be spaced and styled.
        ),
 
 
-9. Under the 'From' Text, plae the DropDownButton widget, whose value is _startMeasure, which you wrote in the previous section:
+9. Under the 'From' Text, place the DropDownButton widget, whose value is _startMeasure, which you wrote in the previous section:
 
        DropdownButton (
             isExpanded: true,
@@ -685,7 +685,7 @@ ADDING THE BUSINESS LOGIC
      };
 
 4. Create a matrix that contains all the possible combinations of conversion formulas, we need to write the method that will convert the values using the formulas and the
-   measures Map. 
+   measures Map . Add this at the bottom of MyAppState class 
 
    void convert(double value, String from, String to) {
       int nFrom = _measuresMap[from];
