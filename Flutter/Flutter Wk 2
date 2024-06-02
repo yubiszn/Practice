@@ -519,33 +519,135 @@ Each element of the Column should be spaced and styled.
      ), 
      Spacer(),
 
-6.
+6. Under the Text that contains 'Value' and its Spacer, we need to place the TextField that we previously create, to allow the user
+   to input then umber that they want to convert. Edit TextField so that it takes the inputStyle TextStyle. We'll also set the decoration
+   property of the TextField.
+
+   - The decoration property of a TextField takes an InputDecoration object. InputDecoration allows you to specify the border, labels, icons,
+     and styles that will be used to decorate a text field.
 
 
-7.
+7. hintText is a piece of text that is shown when TextField is empty, to suggest which kind of input is expected from the user. In this case, add "Please
+   inset the measure to be converted" as a hintText prompt for our TextField:
+
+    TextField(
+       style: inputStyle,
+       decoration: InputDecoration(
+          hintText: "Please insert the measure to be converted",
+       ),
+       onChanged: (text) {
+          var rv = double.tryParse(text);
+          if (rv != null) {
+            setState(() {
+              _numberFrom = rv;
+          });
+      }
+     }
+    ),
 
 
-8.
+8. Under TextField, place another Spacer(), then a Text with 'From' and the labelStyle style:
+
+   Spacer(),
+       Text(
+          'From',
+           style: labelStyle,
+       ),
 
 
-9.
+9. Under the 'From' Text, plae the DropDownButton widget, whose value is _startMeasure, which you wrote in the previous section:
+
+       DropdownButton (
+            isExpanded: true,
+                items: _measures.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _startMeasure = value ?? '';
+                  });
+                },
+                value: _startMeasure,
+              ),
 
 
-10.
 
 
-11.
+
+10. Next, add another Text for the second dropdown: in this case, the Text will contain 'To', and the style will be labelStyle, as before:
+
+     Spacer(),
+       Text(
+          'To',
+           style: labelStyle,
+       ),
 
 
-12.
+11. Under the 'To' Text, we need to place the second DropdownButton widget, and this requires another class member: the first DropdownButton widget
+    used _startMeasure for its value; this new one will ue _convertedMeasure. At the top of the MyAppState class, add the following declaration:
+
+    String _convertedMeasure;
 
 
-13.
+12. Now, we are ready to add the second DropDownButton widget: this will contain the same measures list as the previous one. The only difference here is that
+    it will reference the _convertedMeasure variable. As usual, don't forget to add a Spacer() before the widget:
+
+      Spacer(),
+      DropdownButton (
+            isExpanded: true,
+            style: inputStyle,
+                items: _measures.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: inputStyle,
+                     ),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _convertedMeasure = value ?? '';
+                  });
+                },
+                value: _convertedMeasure,
+              ),
 
 
-14.
+13. Next, add the button that will apply the conversion: it will be a RaisedButton with a Text of 'Convert', and the style of inputStyle. At this time, the onPressed event will
+    do nothing, as we don't have the logic of the app ready yet. Before and after the button we'll place a Spacer, but this time, we will also set its flex property to 2. This way,
+    the space between the button and the other widgets on screen will be twice the amount of the other spacers:
+
+      Spacer(flex: 2,),
+         RaisedButton(
+             child: Text('Convert', style: inputStyle),
+             onPressed: () => true,
+            ),
+          Spacer(flex: 2,),
 
 
-15.
+14. Finally, we'll add the Text for the result of the conversion. For now, let's just leave _numberFrom value as Text; we'll change that in the next section. At the end of the result,
+    we'll add the larget Spacer of this screen, with a flex value of 8, in order to leave some spacer at the end of the screen:
 
+    Text((_numberFrom == null) ? '' : _numberFrom.toString()
+       style: labelStyle),
+    Spacer(flex: 8,),
+
+
+15. Last step, on some devices, the UI may be bigger than the available screen when the keyboard appears on screen. This may cause an error in your app. In order to solve this issue, there's a 
+    simple solution, which is reccomended that you always use when designing your layouts with Flutter. 
+
+    You should put the Column widget into a scrollable widget, in this case, SingleChildScrollView. This will make the widgets on the screen scroll if they take more space that is available on screen.
+    So just enclose Column into a SingleChildScrollView widget:
+
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: SingleChildScrollView(
+           child:  Column{
+               ....
+      },
+   ),
 
