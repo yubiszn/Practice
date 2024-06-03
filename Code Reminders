@@ -1,0 +1,27 @@
+Remember:
+
+- Use separate "if" statements when you want each condition to be evaluated independently, without dependencies. This allows each condition to be checked regardless of the outcome of previous conditions.
+
+Example:
+if (condition1) {
+    // Code block executed if condition1 is true
+}
+
+if (condition2) {
+    // Code block executed if condition2 is true
+}
+
+In this example, both condition1 and condition2 are evaluated independently, and their corresponding code blocks are executed based on their individual outcomes.
+
+- Avoid using "else if" when you want each condition to be evaluated independently. "Else if" creates a dependency between conditions, where only one condition is evaluated after the first condition fails. If you want each condition to be evaluated regardless of the outcome of others, use separate "if" statements.
+
+Example:
+if (condition1) {
+    // Code block executed if condition1 is true
+} else if (condition2) {
+    // Code block executed if condition1 is false and condition2 is true
+}
+
+In this example, if condition1 is false, condition2 will be evaluated. If you want both conditions to be evaluated independently, use separate "if" statements instead.
+
+Understanding control flow and the behavior of conditional statements is crucial for writing reliable and maintainable code.
