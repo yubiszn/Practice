@@ -1,0 +1,69 @@
+      2
+     / \
+    1   7
+       / \
+      6   8
+
+
+For the next set of problems, insert the given values into a binary search tree. For each insert, list the parent of the new value and which child it is (L or R). 
+For example when one was inserted into the tree below, that insert would have been described as: 2L
+
+
+Starting with a tree containing only the value 15, insert the value 7: 15L
+
+     15
+   /   
+ 7       
+
+Now insert 20: 15R
+
+     15
+   /    \ 
+ 7       20
+
+
+
+Now insert 17 : 20L
+
+     15
+   /    \ 
+ 7       20
+        /
+      17
+
+
+Now insert 11. 7R
+
+     15
+   /    \ 
+ 7       20
+ \      /
+  11  17
+
+Now insert 10: 11L
+
+     15
+   /    \ 
+ 7       20
+ \       /
+  11   17
+  /
+10   
+
+
+
+
+ChatGPT
+Yes, in a binary search tree (BST), the insertion of nodes is based on the binary search tree property.
+
+In a binary search tree:
+
+All nodes in the left subtree of a node have values less than the node's value.
+All nodes in the right subtree of a node have values greater than the node's value.
+So, when inserting new nodes:
+
+If the new node's value is less than the current node's value, it is inserted into the left subtree.
+If the new node's value is greater than the current node's value, it is inserted into the right subtree.
+In your example:
+
+If 11 is the right child of 7, then 10 would be inserted as the left child of 11, If 20 is the right child of 15, then 17 would be inserted as the left child of 20, following the binary search tree property.
