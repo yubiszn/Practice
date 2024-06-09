@@ -1,0 +1,53 @@
+Given a binary tree node, return true if the tree rooted at that node is a full tree. That is, return true if every node in the tree has either zero or two children.
+
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class Node<E> {
+  E data;
+  Node<E> leftChild;
+  Node<E> rightChild;
+  
+  public Node() {
+
+  }
+
+  public Node(Node<E> left, Node<E> right) {
+      this.leftChild = left;
+      this.rightChild = right;
+  }
+
+  public boolean isFull() {
+      if (this == null ) {
+        return true;
+      }
+      if (this.leftChild == null && this.rightChild == null) {
+        return true;
+      }
+      if (this.leftChild != null && this.rightChild != null) {
+        return this.leftChild.isFull() && this.rightChild.isFull(); 
+      }
+      return false;
+  }
+
+  public static void main(String [] args) {
+    Node<Integer> thirdLevel1 = new Node(null, null);
+    Node<Integer> thirdLevel2 = new Node(null, null);
+    Node<Integer> thirdLevel3 = new Node(null, null);
+    Node<Integer> thirdLevel4 = new Node(null, null);
+    
+    Node<Integer> secondLevel1 = new Node(thirdLevel1, thirdLevel2);
+    Node<Integer> secondLevel2 = new Node(thirdLevel3, thirdLevel4);
+    
+    Node<Integer> root = new Node(secondLevel1, secondLevel2);
+
+  
+    System.out.println("Is the tree full? " + root.isFull());
+    
+    
+    
+  }
+}
