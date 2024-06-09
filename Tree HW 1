@@ -1,0 +1,84 @@
+Write a method that returns the height of the binary tree when called on the node at the root of the tree. A single node tree should return one.
+
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class Node<E> {
+  E data;
+  Node<E> leftChild;
+  Node<E> rightChild;
+
+  public int getHeight() {
+    if (this == null) {
+      return 0;
+    }
+
+      int leftMaxHeight = 0;
+      int rightMaxHeight = 0;
+  
+
+    if(this.leftChild != null) {
+      leftMaxHeight = leftChild.getHeight();
+    }
+    if(this.rightChild != null) {
+      rightMaxHeight = rightChild.getHeight();
+    }
+  
+
+    if(leftMaxHeight > rightMaxHeight) {
+      return leftMaxHeight + 1;
+    }
+    else {
+      return rightMaxHeight + 1;
+    }
+
+
+  }
+
+  public static void main(String [] args) {
+    Node<Integer> root = new Node<>();
+    root.data = 1;
+
+    root.leftChild = new Node<>();
+    root.leftChild.data = 2; 
+
+    root.rightChild = new Node<>();
+    root.rightChild.data = 3;
+    // null node for left child of 3 
+    root.rightChild.leftChild = new Node<>();
+    root.rightChild.leftChild.data = null;
+    // right child of 3
+    root.rightChild.rightChild = new Node<>();
+    root.rightChild.rightChild.data = 7;
+
+    // left child of 2
+    root.leftChild.leftChild = new Node<>();
+    root.leftChild.leftChild.data = 4;
+    // null nodes for 4, making it a leaf node
+    root.leftChild.leftChild.leftChild = null;
+    root.leftChild.leftChild.rightChild = null;
+
+    // right child of 2
+    root.leftChild.rightChild = new Node<>();
+    root.leftChild.rightChild.data = 5;
+    // null node for left child of 5
+    root.leftChild.rightChild.leftChild = new Node<>();
+    root.leftChild.rightChild.leftChild.data = null;
+    // right child of 5
+    root.leftChild.rightChild.rightChild = new Node<>();
+    root.leftChild.rightChild.rightChild.data = 6;
+
+
+    
+
+
+    
+
+    int height = root.getHeight();
+
+    System.out.println("The height of this tree is: " + height);
+  }
+}
