@@ -1,1 +1,206 @@
+================================================== ================================================== 5.1 Recursive Thinking =====================================================================================================================
 
+In a recursive algorithm, the original problem is split into one or more simpler versions of iterself. For
+example, if the solution to the original problem involved n items, recursive thinking might split it into 
+two problems: one involving n-1 items and one involving just a single item. if n-1 items could be split again
+into one involving n-2 items and one involving a single item, and so one. 
+
+Recursion involves a method calling itself. It invokes itself one or more times with different arguments, usually
+to solve smaller instancs of the same problem.
+
+ex: 
+public static void countDown(int n) {
+  if (n<= 0) {
+    System.out.println("BlastOff");
+    }
+  else {
+    System.out.println(n);
+    countDown(n-1);
+    }
+  }
+As you can see the method countDown(n) is calling on itself inside the method, to solve smaller instances
+of the same problem. It starts with a base case which is the simpliest input for which the solution is known
+without recursion. 
+
+You should identify the base case first. This can be solved directly for the value of n. That is step 1.
+if it can be solved directly, that is step 2, you solve that. 
+
+if (n<= 0) {
+    System.out.println("BlastOff");
+    }
+
+If it can't be solved directly, you move to step 3 where we recursively apply the algorithm to one or more 
+problems involving smaller values of n. we will devise a strategy to split the problem into smaller versions
+of itself and each recursive case must make progress towards the base case. In the example code. the recursive
+case is when we called the method on itself involving smaller values of n:
+
+countDown(n-1);
+
+The recursion continues until the base case is reached: 
+ if (n<= 0) {
+    System.out.println("BlastOff");
+
+once it is reached, it is complete. 
+
+----------------------------------------------------------------------------------------------------------------------------
+Another example:
+public static int length(String str) { 
+    if (str == null || str.isEmpty()) 
+        return 0; 
+    else 
+        return 1 + length(str.substring(1)); 
+}
+
+The base case:
+if (str == null || str.isEmpty()) {
+  return 0;
+}
+
+The recursive case: 
+else  {
+  return 1 + length(str.substring(1)); 
+  // str.substring(1) returns a substring of str from index 1, w/o the 1st character of the string.
+  // we add 1 to count the current character. otherwise, it would only count the length, not the current 
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+Reversing the string using recursion
+
+public static void printCharsReverse(String str) { 
+    if (str == null || str.isEmpty()) { 
+        return; 
+    } else { 
+        printCharsReverse(str.substring(1)); 
+        System.out.println(str.charAt(0)); 
+    } 
+
+The base case :  if (str == null || str.isEmpty())
+
+Recursive case: 
+printCharsReverse(str.substring(1)); 
+System.out.println(str.charAt(0));
+
+Since the recursive call is made before printing the current character, the method effectively
+processes the string from the end towards the beginning.
+
+To visualize this, the execution looks like this: 
+
+- Initial call: printCharsReverse("hello")
+
+- str is not null or empty, so it enters the else block.
+- It makes a recursive call with "ello".
+- Recursive call with "ello":
+
+
+- str is not null or empty, so it enters the else block.
+- It makes a recursive call with "llo".
+- Recursive call with "llo":
+
+- str is not null or empty, so it enters the else block.
+- It makes a recursive call with "lo".
+- Recursive call with "lo":
+
+- str is not null or empty, so it enters the else block.
+- It makes a recursive call with "o".
+- Recursive call with "o":
+
+- Now, str is not null or empty, so it enters the else block.
+- There's no further recursion, so it directly executes System.out.println(str.charAt(0));, 
+  which prints 'o'.
+----------------------------------------------------------------------------------------------------------------------------
+To prove that a recursive method, you have to verify that you have performed the design steps
+correctly. You can use a proof by induction:
+- Verify the base case is recognized and solved correctly
+- verify that each recursive case makes progress toward the base case
+- Verify that if all smaller problems are solved correctly, then the original problem is also correct.
+
+================================================== ================================================== 5.2 Recursive Definitions of Mathematical Formulas =================================================================================================================
+
+Definition 
+0! = 1
+n! = n x ( n - 1)!
+
+Recursive Algorithm for Computing n!
+1. if n = o
+2. n! = 1
+else
+3. n! = n x ( n -1)!
+
+To verify the correctness of this algorithm, make sure the base case can be solved correctly:
+if n = o
+n! = 1
+This is correct.
+Then look at the recursive case, it makes progress towards the base case because it involves calculation
+of a smaller factorial (n - 1)!. If we can calculate (n-1)!, the recursive case gives us the correct formula
+for calculating n!.
+
+The recursive method in code is as follows:
+return n * factorial(n-1);
+This statement implements the recursive case, invokes factorial method on itself. Each time factorial calls
+itself, the method body executes again with a different argument value. so if the innitial method call was
+factorial(4), this will generate 4 recursive calls. factorial(3), factorial(2), factorial(1), factorial(0).
+
+
+Recursive Algorithm for Computing x^2(n ≥ 0)
+Let's develop a recursive method that raises a number x to a power n, where n is a positive or zero.
+You can raise a number to a power by repeatedly multiplying the number by itself. The recursive definition is:
+x^n = x * x^n-1
+if x = 2 
+if n = 3
+2^3 = 2 * 2^3-1 
+is simplified to 
+8 = 8 which is true. 
+
+The recursive algorithm is thus:
+1. if n is 0
+2. the result is 1.
+    else
+3. the result is x^n = x * x^n-1
+
+The recursive method written in code is:
+public static double power(double x, int n) {
+if (n == 0) {
+  return 1;
+}
+else {
+  return x * power(x, n-1)
+}
+
+
+
+Definition of gcd(m,n) for m > n
+
+Recursive Algorithm for gcd(m,n) for m > n
+
+================================================== ================================================== 5.3 Recursive Array Search =================================================================================================================
+Design of a Recursive Linear Search Algorithm
+
+The base case would be an empty array. If the array is empty, the target cannot be there, so the result is -1. If the array is not empty,
+we assume that we can examine just the first element of the array, so another base case would be when the first array element matches the 
+target. If so the result should be the subscript of the first array element.
+
+The recursive step would be to search the rest of the array, excluding the first element. So our recursive step should search for the target
+starting with the current second array element, which will become the first element in the next execution of the recursive step. The algorithm is:
+
+1. if the array is empty
+2. The result is -1;
+    else if The first element matches the target
+3. the result is the subscript of the first element.
+    else
+4. search the array excluding the first element and return the result
+
+The recursive method written in code is: 
+
+private static int linearSearch(Object[] items, Object[] target, int posFirst) {
+  if (posFirst == items.length() {
+    return -1;
+  }
+  else if (target.equals(items[posFirst])) {
+    return posFirst;
+  }
+  else {
+    return linearSearch(items, target, posFirst + 1);
+  }
+
+Design of a Binary Search Algorithm
+}
