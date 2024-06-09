@@ -1,1 +1,175 @@
+Elements and Nodes:
 
+Imagine a tree structure with nodes representing elements.
+Each node is like a circle containing an element.
+
+
+          A
+        /   \
+       B     C
+      / \   / \
+     D   E F   G
+     
+Root:
+The topmost node is the root, typically positioned at the top.
+It's the starting point of the tree structure.
+
+Branches:
+Branches are like lines connecting nodes.
+They depict the relationship between parent and child nodes.
+Children and Parent:
+
+Children nodes are below their parent nodes.
+Parent nodes have one or more children nodes connected by branches.
+Siblings share the same parent node.
+
+
+Ancestor-Descendant Relationship:
+Ancestor nodes are above a specific node in the tree.
+Descendant nodes are below a specific node.
+The root is the ancestor of all nodes, while leaf nodes have no descendants.
+
+
+Subtrees and Levels in Trees:
+Subtree Definition:
+Imagine a smaller tree structure within a larger tree.
+The smaller tree, rooted at a child node, is a subtree of the larger tree.
+
+
+       B
+      / \
+     D   E
+
+
+     
+Level of a Node:
+Each level represents a horizontal layer in the tree.
+The root node is at level 1, its children are at level 2, and so on.
+
+       A        (Level 1)
+      / \
+     B   C      (Level 2)
+    / \
+   D   E        (Level 3)
+   
+Height of a Tree:
+The height of a tree is:
+The number of levels from the root to the deepest leaf node.
+Visualize the longest vertical path from the root to a leaf.
+
+
+Binary Tree:
+A binary tree has nodes with at most two children: left and right.
+Each node can have a left child, a right child, both, or none.
+Types of Binary Trees:
+
+Expression Tree:
+Nodes represent operands or operators in expressions.
+Operators are at internal nodes, while operands are at leaf nodes.
+Parentheses dictate the order of evaluation.
+Here's an example of an expression tree representing the expression (3 * (5 + 2)) - 6:
+
+
+           -
+         /   \
+        *     6
+       / \
+      3   +
+         / \
+        5   2
+        
+In this expression tree:
+
+The root node contains the subtraction operator -.
+The left subtree represents the multiplication operation *, with the left child node containing the operand 3 and the right child node containing the addition operation +.
+The right subtree contains the operand 6.
+
+
+
+
+Huffman Tree:
+Used in Huffman coding for data compression.
+Characters are at leaf nodes, with internal nodes representing combinations.
+Paths from root to leaf nodes represent codes for characters.
+Binary Search Tree (BST):
+
+Nodes are ordered such that left children are smaller, and right children are larger than the parent.
+Allows for efficient searching with O(log n) complexity.
+
+
+Binary Search Tree: 
+Binary Search Tree Example:
+
+                dog
+              /     \
+          cat       wolf
+         /   \
+     canine  frog
+Explanation:
+
+This binary search tree follows the binary search tree property where all nodes in the left subtree have values less than the root node, and all nodes in the right subtree have values greater than the root node.
+For example, for the root node "dog", all words in its left subtree ("cat", "canine", "frog") precede "dog" in the dictionary, and all words in its right subtree ("wolf") follow "dog".
+Similarly, for the node "cat", the word in its left subtree ("canine") precedes it.
+Binary Search Recursive Algorithm:
+
+1. If the tree is empty, 
+        return null (target is not found).
+2. Else if the target matches the root node’s data
+    return the data stored at the root node.
+3. Else if the target is less than the root node’s data, 
+    return the result of searching the left subtree of the root.
+    Else, 
+5. return the result of searching the right subtree of the root.
+
+Java Code Example:
+
+public class BinarySearchTree {
+    TreeNode root;
+
+    static class TreeNode {
+        String value;
+        TreeNode left;
+        TreeNode right;
+
+        public TreeNode(String value) {
+            this.value = value;
+            this.left = null;
+            this.right = null;
+        }
+    }
+
+    public String search(TreeNode node, String target) {
+        if (node == null) {
+            return null; // Target is not found
+        } else if (target.equals(node.value)) {
+            return node.value; // Target found
+        } else if (target.compareTo(node.value) < 0) {
+            return search(node.left, target); // Search left subtree
+        } else {
+            return search(node.right, target); // Search right subtree
+        }
+    }
+
+    public static void main(String[] args) {
+        BinarySearchTree bst = new BinarySearchTree();
+        bst.root = new TreeNode("dog");
+        bst.root.left = new TreeNode("cat");
+        bst.root.left.left = new TreeNode("canine");
+        bst.root.left.right = new TreeNode("frog");
+        bst.root.right = new TreeNode("wolf");
+
+        String target = "frog";
+        String result = bst.search(bst.root, target);
+        if (result != null) {
+            System.out.println("Value found: " + result);
+        } else {
+            System.out.println("Value not found");
+        }
+    }
+}
+This Java code demonstrates:
+
+The definition and creation of a binary search tree.
+The recursive search algorithm for finding a target value in the tree.
+The main method creates a binary search tree, inserts elements, and searches for a value.
+If the value is found, it prints "Value found", otherwise "Value not found".
