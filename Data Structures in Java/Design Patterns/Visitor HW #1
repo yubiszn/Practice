@@ -1,0 +1,107 @@
+Classes and Interfaces Recap
+
+Expression Hierarchy
+The expression hierarchy consists of several classes representing different components of mathematical expressions:
+
+
+===================================================================================================================
+Expression: Abstract base class implementing Visitable, serving as the root for all expression types.
+===================================================================================================================
+BinaryExpression: Abstract subclass of Expression representing binary operations.
+===================================================================================================================
+Concrete Subclasses of BinaryExpression:
+
+- AddExpression: Represents addition.
+- SubtractExpression: Represents subtraction.
+- MultiplyExpression: Represents multiplication.
+- DivideExpression: Represents division.
+
+ConstantExpression: Represents constant values.
+===================================================================================================================
+Operation Enum
+The Operation enum defines mathematical operations (ADD, SUBTRACT, MULTIPLY, DIVIDE) with corresponding symbols and apply methods.
+===================================================================================================================
+Visitor Interface
+The Visitor interface declares methods for visiting different types of expressions:
+
+
+public interface Visitor {
+    void preVisit(BinaryExpression expr);
+    void visit(BinaryExpression expr);
+    void postVisit(BinaryExpression expr);
+    void visit(ConstantExpression expr);
+}
+
+===================================================================================================================
+DebugVisitor
+The DebugVisitor class implements the Visitor interface to log the sequence of method calls during traversal of an expression tree:
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DebugVisitor implements Visitor {
+    private List<String> listofCalls;
+
+    public DebugVisitor() {
+        this.listofCalls = new ArrayList<>();
+    }
+
+    public List<String> getResult() {
+        return this.listofCalls;
+    }
+
+    @Override
+    public void preVisit(BinaryExpression expr) {
+        listofCalls.add("preVisit " + expr.getClass().getSimpleName());
+    }
+
+    @Override
+    public void visit(BinaryExpression expr) {
+        listofCalls.add("visit " + expr.getClass().getSimpleName());
+    }
+
+    @Override
+    public void postVisit(BinaryExpression expr) {
+        listofCalls.add("postVisit " + expr.getClass().getSimpleName());
+    }
+
+    @Override
+    public void visit(ConstantExpression expr) {
+        listofCalls.add("visit " + expr.getClass().getSimpleName() + " " + expr.getValue());
+    }
+
+    public static void main(String[] args) {
+        Expression expr = new AddExpression(new ConstantExpression(3), new ConstantExpression(5));
+        DebugVisitor debugVisitor = new DebugVisitor();
+        expr.accept(debugVisitor);
+        List<String> output = debugVisitor.getResult();
+        for(String calls: output) {
+            System.out.println(calls);
+        }
+    }
+}
+
+===================================================================================================================
+Execution Breakdown
+Expression Tree Creation: Construct an expression tree representing a mathematical expression. For example:
+
+
+Expression expr = new AddExpression(new ConstantExpression(3), new ConstantExpression(5));
+This creates a tree where 3 + 5 is represented as an AddExpression with two ConstantExpression nodes.
+===================================================================================================================
+Visitor Pattern Usage: Use the visitor pattern to traverse the expression tree:
+
+Calling expr.accept(debugVisitor) starts the traversal.
+During traversal, the DebugVisitor logs calls to preVisit, visit, and postVisit methods based on the type of expression nodes encountered.
+DebugVisitor Implementation: The DebugVisitor class logs each method call with the corresponding expression type and any associated values (like constant values).
+===================================================================================================================
+Visual Representation of Expression Tree
+Visualizing the expression 3 + 5:
+
+
+      AddExpression
+      /          \
+ConstantExpression ConstantExpression
+   value=3           value=5
+===================================================================================================================
