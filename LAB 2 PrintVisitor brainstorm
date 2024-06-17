@@ -1,0 +1,174 @@
+/**
+ * Visitor for printing out code.
+ * 
+ * @author Tim
+ * @version Feb 2, 2008
+ */
+public class PrintVisitor implements Visitor {
+
+    private StringBuilder output = new StringBuilder();
+
+    /**
+     * Visits a ConstantExpression.
+     * 
+     * @see Visitor#visit(ConstantExpression)
+     * @param expr
+     */
+    @Override
+    public void visit(ConstantExpression expr) {
+        output.append(expr.getValue());
+    }
+
+    /**
+     * Visits a VariableExpression.
+     * 
+     * @see Visitor#visit(VariableExpression)
+     * @param expr
+     */
+    @Override
+    public void visit(VariableExpression expr) {
+        output.append(expr.getName());
+    }
+
+    /**
+     * Pre-visits a BinaryExpression.
+     * 
+     * @see Visitor#preVisit(BinaryExpression)
+     * @param expr
+     */
+    @Override
+    public void preVisit(BinaryExpression expr) {
+        output.append("(");
+    }
+
+    /**
+     * Visits a BinaryExpression.
+     * 
+     * @see Visitor#visit(BinaryExpression)
+     * @param expr
+     */
+    @Override
+    public void visit(BinaryExpression expr) {
+        // This method is called during the infix visitation of binary expressions
+        // The operator will be appended separately by the infix traversal logic
+    }
+
+    /**
+     * Post-visits a BinaryExpression.
+     * 
+     * @see Visitor#postVisit(BinaryExpression)
+     * @param expr
+     */
+    @Override
+    public void postVisit(BinaryExpression expr) {
+        output.append(")");
+    }
+
+    /**
+     * Pre-visits an AssignStatement.
+     * 
+     * @see Visitor#preVisit(AssignStatement)
+     * @param stmt
+     */
+    @Override
+    public void preVisit(AssignStatement stmt) {
+        output.append(stmt.getVariable().getName()).append(" = ");
+    }
+
+    /**
+     * Post-visits an AssignStatement.
+     * 
+     * @see Visitor#postVisit(AssignStatement)
+     * @param stmt
+     */
+    @Override
+    public void postVisit(AssignStatement stmt) {
+        output.append(";");
+    }
+
+    /**
+     * Pre-visits a WhileStatement.
+     * 
+     * @see Visitor#preVisit(WhileStatement)
+     * @param stmt
+     */
+    @Override
+    public void preVisit(WhileStatement stmt) {
+        output.append("while (");
+    }
+
+    /**
+     * Called after the condition is visited, but before the body for a WhileStatement.
+     * 
+     * @see Visitor#preBodyVisit(WhileStatement)
+     * @param stmt
+     */
+    @Override
+    public void preBodyVisit(WhileStatement stmt) {
+        output.append(") {");
+    }
+
+    /**
+     * Post-visits a WhileStatement.
+     * 
+     * @see Visitor#postVisit(WhileStatement)
+     * @param stmt
+     */
+    @Override
+    public void postVisit(WhileStatement stmt) {
+        output.append("}");
+    }
+
+    /**
+     * Pre-visits an IfStatement.
+     * 
+     * @see Visitor#preVisit(IfStatement)
+     * @param stmt
+     */
+    @Override
+    public void preVisit(IfStatement stmt) {
+        output.append("if (");
+    }
+
+    /**
+     * Called after the condition is visited, but before the then block for an IfStatement.
+     * 
+     * @see Visitor#preThenVisit(IfStatement)
+     * @param stmt
+     */
+    @Override
+    public void preThenVisit(IfStatement stmt) {
+        output.append(") {");
+    }
+
+    /**
+     * Called after the then block is visited, but before the else block for an IfStatement.
+     * 
+     * @see Visitor#preElseVisit(IfStatement)
+     * @param stmt
+     */
+    @Override
+    public void preElseVisit(IfStatement stmt) {
+        output.append("} else {");
+    }
+
+    /**
+     * Post-visits an IfStatement.
+     * 
+     * @see Visitor#postVisit(IfStatement)
+     * @param stmt
+     */
+    @Override
+    public void postVisit(IfStatement stmt) {
+        output.append("}");
+    }
+
+    /**
+     * Returns the code as a string.
+     * 
+     * @return the code as a string
+     */
+    public String getString() {
+        return output.toString();
+    }
+}
