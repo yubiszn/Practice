@@ -1,0 +1,182 @@
+HW #1 - add()
+
+Given a min-heap that stores its data in an ArrayList, implement the add() method. add() will insert the new value at the end of the array, and then swap it upward until the heap property is restored. 
+The Heap constructor takes a parameter that determines how many children each node has, and this will affect the organization of the array. For most of the test cases, your code only needs to work for a
+binary heap, and parentPosition() and childPosition() methods have been supplied that work in this case. To pass all of the test cases, the heap will need to work with three children per node as well as two,
+and you will need to generalize the parentPosition() and childPosition() methods (and possibly add()) to make this work.
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Heap {
+    private ArrayList<Integer> data;
+    private int childrenPerNode;
+
+    public Heap(int childrenPerNode) {
+        this.childrenPerNode = childrenPerNode;
+        this.data = new ArrayList<Integer>();
+    }
+    
+    public Heap(int childrenPerNode, ArrayList<Integer> startingData) {
+        this.childrenPerNode = childrenPerNode;
+        this.data = startingData;
+    }
+
+    //  Returns the index where a given node's parent is stored in the array
+    //  This works for binary heaps, but you'll have to modify it to pass the
+    //  test cases for heaps with more children per node.
+    private int parentPosition(int childPosition) {
+        return (childPosition - 1) / childrenPerNode;
+    }
+
+    //  Returns the index where a given child of a parent node is stored.
+    //  childIndex is 0-based, so in a binary heap, it can be 0 or 1.
+    //  This works for binary heaps, but you'll have to modify it to pass the
+    //  test cases for heaps with more children per node.
+    private int childPosition(int parentPosition, int childIndex) {
+        return childrenPerNode * parentPosition + childIndex + 1;
+    }
+
+    public List<Integer> getData() {
+        return data;
+    }
+
+    public void add(Integer val) {
+        data.add(val);
+
+        int childIndex = data.size() - 1;
+        while (childIndex > 0) {
+            int parentIndex = parentPosition(childIndex);
+            if (data.get(childIndex) < data.get(parentIndex)) {
+                int temp = data.get(childIndex);
+                data.set(childIndex, data.get(parentIndex));
+                data.set(parentIndex, temp);
+            }
+            childIndex = parentIndex;
+        }
+        return;
+    }
+
+    public static void main(String[] args) {
+        Heap biHeap = new Heap(2);
+        biHeap.add(4);
+        biHeap.add(8);
+        biHeap.add(6);
+        biHeap.add(2);
+        biHeap.add(9);
+        System.out.println("Binary Heap with 2 children per node: " + biHeap.getData());
+
+        Heap triHeap = new Heap(3);
+        triHeap.add(11);
+        triHeap.add(8);
+        triHeap.add(6);
+        triHeap.add(4);
+        triHeap.add(9);
+        triHeap.add(13);
+        triHeap.add(5);
+        triHeap.add(3);
+        System.out.println("Binary Heap with 3 children per node: " + triHeap.getData());
+    }
+}
+
+
+We did 3 things in here: 
+1. generalize the parentPosition() method
+2. generatlize the childPosition() method
+3. complete the add() method. 
+
+parentPosition(int childPosition) and childPosition(int parentPosition, int childIndex) Methods: These methods calculate the positions of parent and child nodes in the heap array based on the heap structure
+(childrenPerNode).
+
+Original: 
+public Heap(int childrenPerNode, ArrayList<Integer> startingData) 
+{
+  this.childrenPerNode = childrenPerNode;
+  this.data = startingData;
+}
+
+private int parentPosition(int childPosition) 
+{
+  return (childPosition - 1) / 2;
+}
+
+
+STEP 1: Generalizing the parentPosition() method 
+
+For a node at index childPosition, the formula to find its parent depends on the number of children per node (childrenPerNode).
+The parent index can be calculated using:
+
+private int parentPosition(int childPosition) {
+    return (childPosition - 1) / childrenPerNode;
+}
+
+
+
+STEP 2:  Generalizing the childPosition() method 
+For a parent node at index parentPosition and a specific child index (childIndex), calculate the child's index in the array:
+
+private int childPosition(int parentPosition, int childIndex) {
+    return childrenPerNode * parentPosition + childIndex + 1;
+}
+
+
+This formula ensures that for any given parent node and child index (0-based), you can compute the correct index in the ArrayList.
+
+STEP 2:  Implementtion of the add() method
+
+It starts at the index of the newly added element (childIndex = data.size() - 1).
+It compares the element with its parent (parentIndex = parentPosition(childIndex)).
+If the current element is smaller than its parent, they are swapped (data.set(childIndex, data.get(parentIndex)) and data.set(parentIndex, temp)).
+This process continues until the element is in its correct position (heap property is satisfied) or until it reaches the root of the heap.
+
+public void add(Integer val) 
+{
+    data.add(val);
+
+    int childIndex = data.size() - 1;
+    while (childIndex > 0) 
+    {
+        int parentIndex = parentPosition(childIndex);
+
+        if (data.get(childIndex) < data.get(parentIndex)) 
+        {
+            int temp = data.get(childIndex);
+             data.set(childIndex, data.get(parentIndex));
+            data.set(parentIndex, temp);
+        }
+
+         childIndex = parentIndex;
+     }
+
+    return;
+}
+
+STEP 4: Main Method
+Demonstrates how the Heap class can be used to create a binary heap (Heap(2)) and add elements (3, 7, 5, 1, 8) to it using the add method. After adding elements, it prints the contents
+of the heap ([1, 3, 5, 7, 8]), which shows that the heap property (parent nodes are smaller than their children) is maintained.
+
+public static void main(String[] args) {
+        Heap biHeap = new Heap(2);
+        biHeap.add(4);
+        biHeap.add(8);
+        biHeap.add(6);
+        biHeap.add(2);
+        biHeap.add(9);
+        System.out.println("Binary Heap with 2 children per node: " + biHeap.getData());
+
+        Heap triHeap = new Heap(3);
+        triHeap.add(11);
+        triHeap.add(8);
+        triHeap.add(6);
+        triHeap.add(4);
+        triHeap.add(9);
+        triHeap.add(13);
+        triHeap.add(5);
+        triHeap.add(3);
+        System.out.println("Binary Heap with 3 children per node: " + triHeap.getData());
+    }
+
+
+
